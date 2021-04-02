@@ -1,5 +1,4 @@
 import 'package:crossplatformbeers/repositories/beer_repository.dart';
-import 'package:crossplatformbeers/routes/detail/detail_route.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/punkapi_card.dart';
@@ -8,9 +7,11 @@ class MasterRoute extends StatelessWidget {
   static const routeName = '/';
 
   final BeersRepository beersRepository;
+  final Function onTapped;
 
-  MasterRoute({@required this.beersRepository})
-      : assert(beersRepository != null);
+  MasterRoute({@required this.beersRepository, @required this.onTapped})
+      : assert(beersRepository != null),
+        assert(onTapped != null);
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +67,7 @@ class MasterRoute extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 10),
                 child: PunkApiCard(
                   beer: beers[index],
-                  onBeerSelected: (selectedBeer) {
-                    Navigator.pushNamed(context, DetailRoute.routeName,
-                        arguments: selectedBeer);
-                  },
+                  onBeerSelected: onTapped,
                 ),
               );
             },

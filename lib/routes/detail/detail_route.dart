@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class DetailRoute extends StatelessWidget {
   static const routeName = '/detail';
+  final Beer beer;
+
+  DetailRoute({@required this.beer}) : assert(beer != null);
 
   @override
   Widget build(BuildContext context) {
-    final Beer beer = ModalRoute.of(context).settings.arguments;
     final theme = Theme.of(context);
 
     return Scaffold(
