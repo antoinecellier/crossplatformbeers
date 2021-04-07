@@ -1,8 +1,6 @@
 import 'package:crossplatformbeers/models/beer.dart';
 import 'package:flutter/material.dart';
 
-typedef SelectedBeer = void Function(Beer beer);
-
 class PunkApiCard extends StatelessWidget {
   static const gestureDetectorKey = Key('gestureDetectorKey');
 

@@ -17,7 +17,7 @@ class _PunkApiAppState extends State<PunkApiApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Cross plateform Flutter App',
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,

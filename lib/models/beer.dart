@@ -43,3 +43,5 @@ class Beer {
     );
   }
 }
+
+typedef SelectedBeer = void Function(Beer beer);
