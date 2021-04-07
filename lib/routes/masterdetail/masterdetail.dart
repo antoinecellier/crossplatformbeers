@@ -1,7 +1,7 @@
 import 'package:crossplatformbeers/models/beer.dart';
 import 'package:crossplatformbeers/repositories/beer_repository.dart';
 import 'package:crossplatformbeers/routes/detail/detail.dart';
-import 'package:crossplatformbeers/routes/master/master.dart';
+import 'package:crossplatformbeers/routes/master/master_route.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -25,12 +25,19 @@ class _MasterDetailState extends State<MasterDetail> {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Container(width: 300, child: Master(beersRepository: widget.beersRepository, onSelectItem: (selectedBeer) {
-          setState(() {
-            this.selectedBeer = selectedBeer;
-          });
-        },)),
-        Expanded(child: this.selectedBeer != null ? Detail(beer: selectedBeer) : Home())
+        Container(
+            width: 300,
+            child: MasterRoute(
+              beersRepository: widget.beersRepository,
+              onTapped: (selectedBeer) {
+                setState(() {
+                  this.selectedBeer = selectedBeer;
+                });
+              },
+            )),
+        Expanded(
+            child:
+                this.selectedBeer != null ? Detail(beer: selectedBeer) : Home())
       ],
     );
   }
