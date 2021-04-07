@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:crossplatformbeers/repositories/beer_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,7 @@ class MasterRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     final theme = Theme.of(context);
     final image = Image.asset(
       'assets/images/punkapi.png',
@@ -27,7 +30,9 @@ class MasterRoute extends StatelessWidget {
       backgroundColor: theme.backgroundColor,
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: screenSize.width >= 800
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.center,
           children: [
             image,
             const Text(
@@ -60,11 +65,16 @@ class MasterRoute extends StatelessWidget {
 
           final beers = snapshot.data;
 
-          return ListView.builder(
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 500.0,
+              crossAxisSpacing: 2.0,
+              mainAxisSpacing: 2.0,
+              childAspectRatio: 4,
+            ),
             itemCount: beers.length,
             itemBuilder: (_, index) {
               return Container(
-                margin: EdgeInsets.only(bottom: 10),
                 child: PunkApiCard(
                   beer: beers[index],
                   onBeerSelected: onTapped,
