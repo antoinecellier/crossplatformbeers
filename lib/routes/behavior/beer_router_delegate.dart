@@ -1,5 +1,6 @@
 import 'package:crossplatformbeers/models/beer.dart';
 import 'package:crossplatformbeers/repositories/beer_repository.dart';
+import 'package:crossplatformbeers/routes/masterdetail/masterdetail.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -37,20 +38,40 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
     notifyListeners();
   }
 
+  MaterialPage<dynamic> constraintPages() {
+    BeersRepository beersRepository = BeersRepository(
+      client: http.Client(),
+    );
+
+    if (kIsWeb) {
+      return MaterialPage(
+          key: ValueKey(MasterRoute.routeName),
+          child: MasterRoute(beersRepository: beersRepository));
+    }
+
+    return MaterialPage(
+        key: ValueKey(MasterRoute.routeName),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth > 768) {
+              return MasterDetail(beersRepository: beersRepository);
+            } else {
+              return MasterRoute(
+                beersRepository: beersRepository,
+                onTapped: _handleBeerTapped,
+              );
+            }
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
       transitionDelegate: transitionDelegate,
       pages: [
-        MaterialPage(
-            key: ValueKey(MasterRoute.routeName),
-            child: MasterRoute(
-              beersRepository: BeersRepository(
-                client: http.Client(),
-              ),
-              onTapped: _handleBeerTapped,
-            )),
+        constraintPages(),
         if (show404)
           MaterialPage(key: ValueKey('UnknownPage'), child: UnknownRoute())
         else if (_selectedBeer != null)
