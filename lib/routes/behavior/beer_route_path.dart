@@ -4,7 +4,7 @@ class BeerRoutePath {
 
   BeerRoutePath.home()
       : id = null,
-        isUnknown = null;
+        isUnknown = false;
 
   BeerRoutePath.details(this.id) : isUnknown = false;
 

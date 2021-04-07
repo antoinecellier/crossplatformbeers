@@ -37,6 +37,6 @@ class BeerRouteInformationParser extends RouteInformationParser<BeerRoutePath> {
     if (path.isDetailsPage) {
       return RouteInformation(location: '/beer/${path.id}');
     }
-    return null;
+    return RouteInformation(location: '/');
   }
 }

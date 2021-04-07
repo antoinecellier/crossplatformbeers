@@ -1,5 +1,6 @@
 import 'package:crossplatformbeers/models/beer.dart';
 import 'package:crossplatformbeers/repositories/beer_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +14,9 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<BeerRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  TransitionDelegate transitionDelegate = NoAnimationTransitionDelegate();
+  TransitionDelegate transitionDelegate = kIsWeb
+      ? NoAnimationTransitionDelegate()
+      : DefaultTransitionDelegate<dynamic>();
 
   Beer _selectedBeer;
   bool show404 = false;
@@ -30,7 +33,6 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
   }
 
   void _handleBeerTapped(Beer beer) {
-    print(beer);
     _selectedBeer = beer;
     notifyListeners();
   }
