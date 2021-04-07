@@ -46,4 +46,4 @@ class Beer {
 
 typedef SelectedBeer = void Function(Beer beer);
 typedef AddBeerToFavorite = void Function(String beerId);
-typedef OnRemoveToFavorite = void Function(String beerId);
+typedef RemoveBeerToFavorite = void Function(String beerId);

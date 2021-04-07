@@ -5,7 +5,7 @@ class PunkApiCard extends StatefulWidget {
   final Beer beer;
   final SelectedBeer onBeerSelected;
   final AddBeerToFavorite onAddToFavorite;
-  final OnRemoveToFavorite onRemoveToFavorite;
+  final RemoveBeerToFavorite onRemoveToFavorite;
   final bool isInFavorite;
 
   const PunkApiCard(
@@ -29,7 +29,6 @@ class _PunkApiCardState extends State<PunkApiCard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       _isInFavorite = widget.isInFavorite;

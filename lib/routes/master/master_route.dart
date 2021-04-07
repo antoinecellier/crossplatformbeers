@@ -24,7 +24,7 @@ class MasterRoute extends StatelessWidget {
 
   onAddToFavorite(String beerId) async {
     final SharedPreferences prefs = await _prefs;
-    List<String> favorites = prefs.getStringList('favorites') ?? [];
+    List<String> favorites = await getFavorites() ?? [];
     favorites.add(beerId);
     await prefs.setStringList('favorites', favorites);
   }
