@@ -17,25 +17,6 @@ class MasterRoute extends StatelessWidget {
       : assert(beersRepository != null),
         assert(onTapped != null);
 
-  Future<List<String>> getFavorites() async {
-    final SharedPreferences prefs = await _prefs;
-    return prefs.getStringList('favorites');
-  }
-
-  onAddToFavorite(String beerId) async {
-    final SharedPreferences prefs = await _prefs;
-    List<String> favorites = await getFavorites() ?? [];
-    favorites.add(beerId);
-    await prefs.setStringList('favorites', favorites);
-  }
-
-  onRemoveToFavorite(String beerId) async {
-    final SharedPreferences prefs = await _prefs;
-    List<String> favorites = prefs.getStringList('favorites') ?? [];
-    favorites.removeWhere((favorite) => favorite == beerId);
-    await prefs.setStringList('favorites', favorites);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -67,10 +48,7 @@ class MasterRoute extends StatelessWidget {
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future: Future.wait([
-          beersRepository.getBeers(itemsPerPage: 80),
-          getFavorites(),
-        ]),
+        future: beersRepository.getBeers(itemsPerPage: 80),
         builder: (_, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -84,25 +62,15 @@ class MasterRoute extends StatelessWidget {
             );
           }
 
-          List<Beer> beers = snapshot.data[0];
-          List<String> favorites = snapshot.data[1];
+          List<Beer> beers = snapshot.data;
 
           return ListView.builder(
             itemCount: beers.length,
             itemBuilder: (_, index) {
-              bool isInfavorite = favorites != null
-                  ? favorites.indexWhere((favorite) =>
-                          favorite == beers[index].id.toString()) >=
-                      0
-                  : false;
               return Container(
                 margin: EdgeInsets.only(bottom: 10),
-                child: PunkApiCard(
-                    beer: beers[index],
-                    onBeerSelected: onTapped,
-                    onAddToFavorite: onAddToFavorite,
-                    onRemoveToFavorite: onRemoveToFavorite,
-                    isInFavorite: isInfavorite),
+                child:
+                    PunkApiCard(beer: beers[index], onBeerSelected: onTapped),
               );
             },
           );

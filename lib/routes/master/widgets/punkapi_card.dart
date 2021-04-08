@@ -1,39 +1,16 @@
 import 'package:crossplatformbeers/models/beer.dart';
+import 'package:crossplatformbeers/widgets/favorite.dart';
 import 'package:flutter/material.dart';
 
-class PunkApiCard extends StatefulWidget {
-  final Beer beer;
-  final SelectedBeer onBeerSelected;
-  final AddBeerToFavorite onAddToFavorite;
-  final RemoveBeerToFavorite onRemoveToFavorite;
-  final bool isInFavorite;
-
-  const PunkApiCard(
-      {Key key,
-      @required this.beer,
-      this.onBeerSelected,
-      this.onAddToFavorite,
-      this.onRemoveToFavorite,
-      this.isInFavorite})
-      : assert(beer != null),
-        super(key: key);
-
-  @override
-  _PunkApiCardState createState() => _PunkApiCardState();
-}
-
-class _PunkApiCardState extends State<PunkApiCard> {
+class PunkApiCard extends StatelessWidget {
   static const gestureDetectorKey = Key('gestureDetectorKey');
 
-  bool _isInFavorite = false;
+  final Beer beer;
+  final SelectedBeer onBeerSelected;
 
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      _isInFavorite = widget.isInFavorite;
-    });
-  }
+  const PunkApiCard({Key key, @required this.beer, this.onBeerSelected})
+      : assert(beer != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +19,8 @@ class _PunkApiCardState extends State<PunkApiCard> {
     return GestureDetector(
       key: gestureDetectorKey,
       onTap: () {
-        if (widget.onBeerSelected != null) {
-          widget.onBeerSelected(widget.beer);
+        if (onBeerSelected != null) {
+          onBeerSelected(beer);
         }
       },
       child: Container(
@@ -64,9 +41,9 @@ class _PunkApiCardState extends State<PunkApiCard> {
             Container(
               width: 100,
               child: Hero(
-                tag: widget.beer.id,
+                tag: beer.id,
                 child: Image.network(
-                  widget.beer.imageURL,
+                  beer.imageURL,
                 ),
               ),
             ),
@@ -77,33 +54,18 @@ class _PunkApiCardState extends State<PunkApiCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.beer.name,
+                      beer.name,
                       style: theme.textTheme.headline6,
                     ),
                     Text(
-                      widget.beer.tagline,
+                      beer.tagline,
                       style: theme.textTheme.subtitle1,
                     ),
                   ],
                 ),
               ),
             ),
-            IconButton(
-              icon: Icon(
-                _isInFavorite ? Icons.favorite : Icons.favorite_border,
-                color: _isInFavorite ? Colors.red : Colors.black,
-              ),
-              onPressed: () {
-                if (_isInFavorite) {
-                  widget.onRemoveToFavorite(widget.beer.id.toString());
-                } else {
-                  widget.onAddToFavorite(widget.beer.id.toString());
-                }
-                setState(() {
-                  _isInFavorite = !_isInFavorite;
-                });
-              },
-            )
+            Favorite(id: beer.id.toString())
           ],
         ),
       ),
