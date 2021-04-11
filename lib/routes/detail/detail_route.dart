@@ -42,9 +42,9 @@ class DetailRoute extends StatelessWidget {
         borderRadius: BorderRadiusDirectional.vertical(bottom: Radius.circular(12)),
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.black54,
-              blurRadius: 15.0,
-              offset: Offset(0.0, 0.75)
+            color: theme.shadowColor.withOpacity(0.4),
+            offset: const Offset(0.0, 1.0),
+            blurRadius: 6.0,
           )
         ],
       ),
