@@ -51,6 +51,7 @@ class MasterRoute extends StatelessWidget {
         future: beersRepository.getBeers(itemsPerPage: 80),
         builder: (_, snapshot) {
           if (snapshot.hasError) {
+            print(snapshot.error);
             return Center(
               child: Text('An error occurred'),
             );

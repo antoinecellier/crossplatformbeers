@@ -28,7 +28,14 @@ class BeersRepository {
     }
 
     final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
+    try {
+      // something
+      return parsed.map<Beer>((json) => Beer.fromJson(json)).toList();
+    } catch(e, stacktrace) {
+      print(e);
+      print(stacktrace);
+      throw e;
+    }
 
-    return parsed.map<Beer>((json) => Beer.fromJson(json)).toList();
   }
 }
