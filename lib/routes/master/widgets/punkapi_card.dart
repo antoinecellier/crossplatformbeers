@@ -15,7 +15,6 @@ class PunkApiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return GestureDetector(
       key: gestureDetectorKey,
       onTap: () {
@@ -65,7 +64,9 @@ class PunkApiCard extends StatelessWidget {
                 ),
               ),
             ),
-            Favorite(id: beer.id.toString())
+            Favorite(
+              id: beer.id.toString(),
+            )
           ],
         ),
       ),
