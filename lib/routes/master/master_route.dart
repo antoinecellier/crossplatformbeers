@@ -1,5 +1,7 @@
+import 'package:crossplatformbeers/models/beer.dart';
 import 'package:crossplatformbeers/repositories/beer_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'widgets/punkapi_card.dart';
 
@@ -8,6 +10,8 @@ class MasterRoute extends StatelessWidget {
 
   final BeersRepository beersRepository;
   final Function onTapped;
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   MasterRoute({@required this.beersRepository, @required this.onTapped})
       : assert(beersRepository != null),
@@ -58,17 +62,15 @@ class MasterRoute extends StatelessWidget {
             );
           }
 
-          final beers = snapshot.data;
+          List<Beer> beers = snapshot.data;
 
           return ListView.builder(
             itemCount: beers.length,
             itemBuilder: (_, index) {
               return Container(
                 margin: EdgeInsets.only(bottom: 10),
-                child: PunkApiCard(
-                  beer: beers[index],
-                  onBeerSelected: onTapped,
-                ),
+                child:
+                    PunkApiCard(beer: beers[index], onBeerSelected: onTapped),
               );
             },
           );

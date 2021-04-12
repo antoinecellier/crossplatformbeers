@@ -46,7 +46,8 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
     if (kIsWeb) {
       return MaterialPage(
           key: ValueKey(MasterRoute.routeName),
-          child: MasterRoute(beersRepository: beersRepository));
+          child: MasterRoute(
+              beersRepository: beersRepository, onTapped: _handleBeerTapped));
     }
 
     return MaterialPage(

@@ -1,4 +1,6 @@
 import 'package:crossplatformbeers/models/beer.dart';
+import 'package:crossplatformbeers/routes/master/master_route.dart';
+import 'package:crossplatformbeers/widgets/favorite.dart';
 import 'package:flutter/material.dart';
 
 class DetailRoute extends StatelessWidget {
@@ -15,7 +17,18 @@ class DetailRoute extends StatelessWidget {
       backgroundColor: theme.backgroundColor,
       appBar: AppBar(
         centerTitle: true,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            );
+          },
+        ),
         title: Text(beer.name),
+        actions: [Favorite(id: beer.id.toString())],
       ),
       body: Container(
         color: theme.cardColor,

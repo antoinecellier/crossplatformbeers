@@ -1,4 +1,5 @@
 import 'package:crossplatformbeers/models/beer.dart';
+import 'package:crossplatformbeers/widgets/favorite.dart';
 import 'package:flutter/material.dart';
 
 class PunkApiCard extends StatelessWidget {
@@ -7,17 +8,13 @@ class PunkApiCard extends StatelessWidget {
   final Beer beer;
   final SelectedBeer onBeerSelected;
 
-  const PunkApiCard({
-    Key key,
-    @required this.beer,
-    this.onBeerSelected,
-  })  : assert(beer != null),
+  const PunkApiCard({Key key, @required this.beer, this.onBeerSelected})
+      : assert(beer != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return GestureDetector(
       key: gestureDetectorKey,
       onTap: () {
@@ -66,6 +63,9 @@ class PunkApiCard extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+            Favorite(
+              id: beer.id.toString(),
             )
           ],
         ),
