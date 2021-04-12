@@ -126,3 +126,5 @@ String convertVolumeName(String unit) {
   }
 }
 typedef SelectedBeer = void Function(Beer beer);
+typedef AddBeerToFavorite = void Function(String beerId);
+typedef RemoveBeerToFavorite = void Function(String beerId);
