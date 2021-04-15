@@ -1,4 +1,5 @@
 import 'package:crossplatformbeers/models/beer.dart';
+import 'package:crossplatformbeers/routes/detail/widgets/image_viewer.dart';
 import 'package:crossplatformbeers/routes/master/master_route.dart';
 import 'package:crossplatformbeers/widgets/favorite.dart';
 import 'package:flutter/material.dart';
@@ -48,11 +49,13 @@ class DetailRoute extends StatelessWidget {
     );
   }
 
-  Widget buildMainPanel(BoxConstraints contrains, ThemeData theme, BuildContext context) {
+  Widget buildMainPanel(
+      BoxConstraints contrains, ThemeData theme, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: theme.primaryColorLight,
-        borderRadius: BorderRadiusDirectional.vertical(bottom: Radius.circular(12)),
+        borderRadius:
+            BorderRadiusDirectional.vertical(bottom: Radius.circular(12)),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: theme.shadowColor.withOpacity(0.4),
@@ -67,14 +70,12 @@ class DetailRoute extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
-              flex: 1,
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Hero(
-                  tag: beer.id,
-                  child: Image.network(beer.imageURL),
-                ),
-              )),
+            flex: 1,
+            child: ImageViewer(
+              beerId: beer.id,
+              imageURL: beer.imageURL,
+            ),
+          ),
           Flexible(
             flex: 2,
             child: Column(
@@ -108,12 +109,14 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "ABV",
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline5,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline5,
                             ),
                             Text(
                               beer.abv,
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline6,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline6,
                             ),
                           ],
                         ),
@@ -126,12 +129,14 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "IBU",
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline5,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline5,
                             ),
                             Text(
                               beer.ibu,
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline6,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline6,
                             ),
                           ],
                         ),
@@ -144,12 +149,14 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "OG",
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline5,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline5,
                             ),
                             Text(
                               beer.targetOg,
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline6,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline6,
                               softWrap: false,
                             ),
                           ],
@@ -158,7 +165,6 @@ class DetailRoute extends StatelessWidget {
                     ],
                   ),
                 ),
-
               ],
             ),
           ),
@@ -167,17 +173,21 @@ class DetailRoute extends StatelessWidget {
     );
   }
 
-  Widget buildDetailList(BuildContext context, BoxConstraints contrains, ThemeData theme, Beer beer) {
+  Widget buildDetailList(BuildContext context, BoxConstraints contrains,
+      ThemeData theme, Beer beer) {
     int even = 0;
-    final foodColumn = Column(children: beer.foodPairing.map((food) => buildSimpleText(context, food, even++ % 2 == 0)).toList(growable: false));
+    final foodColumn = Column(
+        children: beer.foodPairing
+            .map((food) => buildSimpleText(context, food, even++ % 2 == 0))
+            .toList(growable: false));
 
     bool isLarge = contrains.maxWidth > 650;
 
     return Padding(
       padding: EdgeInsets.symmetric(
-      horizontal: 20,
-      vertical: 10,
-    ),
+        horizontal: 20,
+        vertical: 10,
+      ),
       child: Column(
         children: <Widget>[
           // Basics
@@ -187,23 +197,26 @@ class DetailRoute extends StatelessWidget {
               direction: isLarge ? Axis.horizontal : Axis.vertical,
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: isLarge ? CrossAxisAlignment.start : CrossAxisAlignment.stretch,
+              crossAxisAlignment: isLarge
+                  ? CrossAxisAlignment.start
+                  : CrossAxisAlignment.stretch,
               children: [
                 Container(
                   width: 300,
                   child: Column(
                     children: [
-
                       buildHeader(context, "Basics"),
                       buildValue(context, "VOLUME", beer.volume, true),
-                      buildValue(context, "BOIL VOLUME", beer.boilVolume, false),
+                      buildValue(
+                          context, "BOIL VOLUME", beer.boilVolume, false),
                       buildValue(context, "ABV", beer.abv, true),
                       buildValue(context, "Target FG", beer.targetFg, false),
                       buildValue(context, "Target OG", beer.targetOg, true),
                       buildValue(context, "EBC", beer.ebc, false),
                       buildValue(context, "SRM", beer.srm, true),
                       buildValue(context, "PH", beer.ph, false),
-                      buildValue(context, "ATTENUATION LEVEL", beer.attenuationLevel, true),
+                      buildValue(context, "ATTENUATION LEVEL",
+                          beer.attenuationLevel, true),
                     ],
                   ),
                 ),
@@ -244,7 +257,9 @@ class DetailRoute extends StatelessWidget {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: even ? Theme.of(context).primaryColorLight : Theme.of(context).backgroundColor,
+        color: even
+            ? Theme.of(context).primaryColorLight
+            : Theme.of(context).backgroundColor,
       ),
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       child: Text(
@@ -254,11 +269,14 @@ class DetailRoute extends StatelessWidget {
     );
   }
 
-  Widget buildValue(BuildContext context, String title, String message, bool even) {
+  Widget buildValue(
+      BuildContext context, String title, String message, bool even) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
-        color: even ? Theme.of(context).primaryColorLight : Theme.of(context).backgroundColor,
+        color: even
+            ? Theme.of(context).primaryColorLight
+            : Theme.of(context).backgroundColor,
       ),
       child: Row(
         children: <Widget>[

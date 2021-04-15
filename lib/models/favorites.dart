@@ -41,7 +41,7 @@ class FavoritesModel extends ChangeNotifier {
   Future<List<String>> getFavorites() async {
     final SharedPreferences prefs = await _prefs;
     List<String> favorites = prefs.getStringList('favorites');
-    return favorites.isNotEmpty ? favorites : [];
+    return favorites != null && favorites.isNotEmpty ? favorites : [];
   }
 
   onAddToFavorite(String beerId) async {
