@@ -71,9 +71,12 @@ class DetailRoute extends StatelessWidget {
         children: [
           Flexible(
             flex: 1,
-            child: ImageViewer(
-              beerId: beer.id,
-              imageURL: beer.imageURL,
+            child: Hero(
+              tag: beer.id,
+              child: ImageViewer(
+                beerId: beer.id,
+                imageURL: beer.imageURL,
+              ),
             ),
           ),
           Flexible(

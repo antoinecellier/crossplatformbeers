@@ -16,7 +16,9 @@ class _ImageViewerState extends State<ImageViewer>
   double aspectRatio = 1;
   @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder<double>(
+    return Material(
+      color: Colors.transparent,
+      child: TweenAnimationBuilder<double>(
         tween: Tween<double>(begin: aspectRatio, end: aspectRatio),
         duration: const Duration(seconds: 1),
         builder: (BuildContext context, double size, Widget child) {
@@ -30,14 +32,8 @@ class _ImageViewerState extends State<ImageViewer>
                   });
                 }),
           );
-        });
+        },
+      ),
+    );
   }
 }
-
-/*AspectRatio(
-aspectRatio: 16 / 9,
-child: Hero(
-tag: beer.id,
-child: Image.network(beer.imageURL),
-),
-))*/
