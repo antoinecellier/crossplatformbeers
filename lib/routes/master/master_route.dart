@@ -2,6 +2,7 @@ import 'package:crossplatformbeers/models/beer.dart';
 import 'package:crossplatformbeers/repositories/beer_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'widgets/punkapi_card.dart';
 
@@ -65,15 +66,25 @@ class MasterRoute extends StatelessWidget {
 
           List<Beer> beers = snapshot.data;
 
-          return ListView.builder(
-            itemCount: beers.length,
-            itemBuilder: (_, index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 10),
-                child:
-                    PunkApiCard(beer: beers[index], onBeerSelected: onTapped),
-              );
-            },
+          return AnimationLimiter(
+            child: ListView.builder(
+              itemCount: beers.length,
+              itemBuilder: (_, index) {
+                return AnimationConfiguration.staggeredList(
+                  position: index,
+                  duration: const Duration(milliseconds: 375),
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: PunkApiCard(beer: beers[index], onBeerSelected: onTapped),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
           );
         },
       ),
