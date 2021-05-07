@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+[Demo](https://antoinecellier.github.io/crossplatformbeers/#/)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
