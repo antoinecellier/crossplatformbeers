@@ -39,10 +39,7 @@ class DetailRoute extends StatelessWidget {
           child: SingleChildScrollView(
             child: LayoutBuilder(builder: (context, contrains) {
               return Column(
-                children: [
-                  buildMainPanel(contrains, theme, context),
-                  buildDetailList(context, contrains, theme, beer)
-                ],
+                children: [buildMainPanel(contrains, theme, context), buildDetailList(context, contrains, theme, beer)],
               );
             }),
           ),
@@ -189,7 +186,6 @@ class DetailRoute extends StatelessWidget {
                     ],
                   ),
                 ),
-
               ],
             ),
           ),
@@ -206,56 +202,66 @@ class DetailRoute extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-      horizontal: 20,
-      vertical: 10,
-    ),
-      child: Column(
-        children: <Widget>[
-          // Basics
-          buildHeader(context, "Description"),
-          buildSimpleText(context, beer.description, false),
-          Flex(
-              direction: isLarge ? Axis.horizontal : Axis.vertical,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: isLarge ? CrossAxisAlignment.start : CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  width: 300,
-                  child: Column(
-                    children: [
+        horizontal: 20,
+        vertical: 10,
+      ),
+      child: AnimationLimiter(
+        child: Column(
+          children: AnimationConfiguration.toStaggeredList(
+            duration: const Duration(milliseconds: 375),
+            childAnimationBuilder: (widget) => SlideAnimation(
+              verticalOffset: 50.0,
+              child: FadeInAnimation(
+                child: widget,
+              ),
+            ),
+            children: <Widget>[
+              // Basics
+              buildHeader(context, "Description"),
+              buildSimpleText(context, beer.description, false),
+              Flex(
+                  direction: isLarge ? Axis.horizontal : Axis.vertical,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: isLarge ? CrossAxisAlignment.start : CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      width: 300,
+                      child: Column(
+                        children: [
+                          buildHeader(context, "Basics"),
+                          buildValue(context, "VOLUME", beer.volume, true),
+                          buildValue(context, "BOIL VOLUME", beer.boilVolume, false),
+                          buildValue(context, "ABV", beer.abv, true),
+                          buildValue(context, "Target FG", beer.targetFg, false),
+                          buildValue(context, "Target OG", beer.targetOg, true),
+                          buildValue(context, "EBC", beer.ebc, false),
+                          buildValue(context, "SRM", beer.srm, true),
+                          buildValue(context, "PH", beer.ph, false),
+                          buildValue(context, "ATTENUATION LEVEL", beer.attenuationLevel, true),
+                        ],
+                      ),
+                    ),
 
-                      buildHeader(context, "Basics"),
-                      buildValue(context, "VOLUME", beer.volume, true),
-                      buildValue(context, "BOIL VOLUME", beer.boilVolume, false),
-                      buildValue(context, "ABV", beer.abv, true),
-                      buildValue(context, "Target FG", beer.targetFg, false),
-                      buildValue(context, "Target OG", beer.targetOg, true),
-                      buildValue(context, "EBC", beer.ebc, false),
-                      buildValue(context, "SRM", beer.srm, true),
-                      buildValue(context, "PH", beer.ph, false),
-                      buildValue(context, "ATTENUATION LEVEL", beer.attenuationLevel, true),
-                    ],
-                  ),
-                ),
+                    // Food pairing
 
-                // Food pairing
+                    Container(
+                      width: 300,
+                      child: Column(
+                        children: [
+                          buildHeader(context, "Food pairing"),
+                          foodColumn,
+                        ],
+                      ),
+                    ),
+                  ]),
 
-                Container(
-                  width: 300,
-                  child: Column(
-                    children: [
-                      buildHeader(context, "Food pairing"),
-                      foodColumn,
-                    ],
-                  ),
-                ),
-              ]),
-
-          // Brewer's tips
-          buildHeader(context, "BREWER\'S TIPS"),
-          buildSimpleText(context, beer.brewersTips, false),
-        ],
+              // Brewer's tips
+              buildHeader(context, "BREWER\'S TIPS"),
+              buildSimpleText(context, beer.brewersTips, false),
+            ],
+          ),
+        ),
       ),
     );
   }
