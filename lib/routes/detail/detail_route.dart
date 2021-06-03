@@ -1,7 +1,9 @@
 import 'package:crossplatformbeers/models/beer.dart';
-import 'package:crossplatformbeers/routes/master/master_route.dart';
+import 'package:crossplatformbeers/models/favorites.dart';
 import 'package:crossplatformbeers/widgets/favorite.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class DetailRoute extends StatelessWidget {
@@ -29,7 +31,7 @@ class DetailRoute extends StatelessWidget {
           },
         ),
         title: Text(beer.name),
-        actions: [Favorite(id: beer.id.toString())],
+        actions: [buildFavorite(context)],
       ),
       body: Container(
         color: theme.cardColor,
@@ -44,6 +46,30 @@ class DetailRoute extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget buildFavorite(BuildContext context) {
+    return Shortcuts(
+      shortcuts: {
+        LogicalKeySet(LogicalKeyboardKey.keyF): const FavoriteIntent(),
+      },
+      child: Actions(
+          actions: <Type, Action<Intent>>{
+            FavoriteIntent: CallbackAction<FavoriteIntent>(
+              onInvoke: (FavoriteIntent intent) async {
+                final favoritesModel = Provider.of<FavoritesModel>(context, listen: false);
+                bool isInFavorite = favoritesModel.isInFavorites(beer.id.toString());
+                if (isInFavorite) {
+                  favoritesModel.onRemoveToFavorite(beer.id.toString());
+                } else {
+                  favoritesModel.onAddToFavorite(beer.id.toString());
+                }
+              },
+            ),
+          },
+          child: Focus(
+              autofocus: true,
+              child: Favorite(id: beer.id.toString()))));
   }
 
   Widget buildMainPanel(BoxConstraints contrains, ThemeData theme, BuildContext context) {
@@ -66,11 +92,20 @@ class DetailRoute extends StatelessWidget {
         children: [
           Flexible(
               flex: 1,
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Hero(
-                  tag: beer.id,
-                  child: Image.network(beer.imageURL),
+              child: InteractiveViewer(
+                minScale: 0.1,
+                maxScale: 4,
+                child: InkWell(
+                  onTap: () async {
+                    await showDialog(context: context, builder: (context) => ImageDialog(beer.imageURL));
+                  },
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Hero(
+                      tag: beer.id,
+                      child: Image.network(beer.imageURL),
+                    ),
+                  ),
                 ),
               )),
           Flexible(
@@ -289,4 +324,24 @@ class DetailRoute extends StatelessWidget {
       ),
     );
   }
+}
+
+class ImageDialog extends StatelessWidget {
+  String imageURL;
+
+  ImageDialog(this.imageURL);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: InteractiveViewer(
+          minScale: 0.1,
+          maxScale: 4,
+          child: Image.network(imageURL)),
+    );
+  }
+}
+
+class FavoriteIntent extends Intent {
+  const FavoriteIntent();
 }

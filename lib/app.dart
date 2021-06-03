@@ -6,12 +6,12 @@ import 'models/favorites.dart';
 import 'routes/behavior/beer_route_information_parser.dart';
 import 'routes/behavior/beer_router_delegate.dart';
 
-class PunkApiApp extends StatefulWidget {
+class CrossPlatformBeersApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _PunkApiAppState();
+  State<StatefulWidget> createState() => _CrossPlatformBeersAppState();
 }
 
-class _PunkApiAppState extends State<PunkApiApp> {
+class _CrossPlatformBeersAppState extends State<CrossPlatformBeersApp> {
   BeerRouterDelegate _routerDelegate = BeerRouterDelegate();
   BeerRouteInformationParser _routeInformationParser =
       BeerRouteInformationParser();
@@ -21,6 +21,7 @@ class _PunkApiAppState extends State<PunkApiApp> {
     return ChangeNotifierProvider<FavoritesModel>(
       create: (_) => FavoritesModel(),
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         title: 'Cross plateform Flutter App',
         theme: lightTheme,
         darkTheme: darkTheme,

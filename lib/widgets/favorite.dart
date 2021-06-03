@@ -14,6 +14,7 @@ class Favorite extends StatelessWidget {
     final favoritesModel = context.watch<FavoritesModel>();
     bool isInFavorite = favoritesModel.isInFavorites(id.toString());
     return IconButton(
+      tooltip: "Add or remove the beer to your favorite",
       icon: Icon(
         isInFavorite ? Icons.favorite : Icons.favorite_border,
         color: isInFavorite ? Colors.red : Colors.black,

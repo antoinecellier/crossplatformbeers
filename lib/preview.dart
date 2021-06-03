@@ -5,6 +5,6 @@ import 'app.dart';
 
 void main() => runApp(
   DevicePreview(
-    builder: (context) => PunkApiApp(), // Wrap your app
+    builder: (context) => CrossPlatformBeersApp(), // Wrap your app
   ),
 );
