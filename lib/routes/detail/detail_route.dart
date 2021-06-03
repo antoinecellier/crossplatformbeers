@@ -95,11 +95,16 @@ class DetailRoute extends StatelessWidget {
               child: InteractiveViewer(
                 minScale: 0.1,
                 maxScale: 4,
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Hero(
-                    tag: beer.id,
-                    child: Image.network(beer.imageURL),
+                child: InkWell(
+                  onTap: () async {
+                    await showDialog(context: context, builder: (context) => ImageDialog(beer.imageURL));
+                  },
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Hero(
+                      tag: beer.id,
+                      child: Image.network(beer.imageURL),
+                    ),
                   ),
                 ),
               )),
@@ -317,6 +322,22 @@ class DetailRoute extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ImageDialog extends StatelessWidget {
+  String imageURL;
+
+  ImageDialog(this.imageURL);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: InteractiveViewer(
+          minScale: 0.1,
+          maxScale: 4,
+          child: Image.network(imageURL)),
     );
   }
 }
