@@ -11,6 +11,6 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('PunkApiApp test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(PunkApiApp());
+    await tester.pumpWidget(CrossPlatformBeersApp());
   });
 }
